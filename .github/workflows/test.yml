@@ -1,5 +1,5 @@
 name: test project
-on: push
+on: [push,workflow_dispatch]
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -10,10 +10,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18.16
-      - name: Install dependencies
-        run: npm ci
-      - name: Run tests
-        run: npm test
+      - name: Run prettier
+        run: |
+          npm ci
+          npm run prettier-check
   deploy:
     runs-on: ubuntu-latest
     steps:
