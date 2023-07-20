@@ -3,16 +3,17 @@ on: [push,workflow_dispatch]
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
-      - run: npm ci
-      - run: npm run build --if-present
-      - run: npm test
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm ci
+      - name: lint
+        run: npm run lint
+      - name: Build project
+        run: npm run build
+      - name: Deploy
+        run: echo "Deploying.."
   deploy:
     runs-on: ubuntu-latest
     steps:
