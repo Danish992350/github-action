@@ -20,13 +20,15 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 12  
+          node-version: 16 
       - name: Upload artifacts   #(to store arifacts produced by build job)
         uses: actions/upload-artifact@v3
         with:
           name: dist-files
           path: dist
-                 
+          #|
+          #  dist
+          #  package.json       
   deploy:
     needs: build
     runs-on: ubuntu-latest
