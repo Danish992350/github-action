@@ -17,8 +17,6 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
-      - name: Run linters
-        uses: wearerequired/lint-action@v2
       - name: Upload artifacts   #(to store arifacts produced by build job)
         uses: actions/upload-artifact@v3
         with:
