@@ -9,18 +9,21 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
-      - name: Run linters
-        uses: wearerequired/lint-action@v2
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm test
   build:
     needs: test   # its means te req to run spcifk job fistnd nxt this job
     runs-on: ubuntu-latest
     steps:
-      - name: Get code
-        uses: actions/checkout@v3
-      - name: Set up Node.js
-        uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: 16 
+          node-version: '18.x'
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm test 
       - name: Upload artifacts   #(to store arifacts produced by build job)
         uses: actions/upload-artifact@v3
         with:
