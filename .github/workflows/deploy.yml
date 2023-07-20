@@ -17,6 +17,10 @@ jobs:
     steps:
       - name: Get code
         uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12  
       - name: Upload artifacts   #(to store arifacts produced by build job)
         uses: actions/upload-artifact@v3
         with:
