@@ -4,12 +4,11 @@ on:
     branches:
       - main
 jobs:
-  steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
       - run: npm ci
       - run: npm run build --if-present
       - run: npm test
@@ -17,18 +16,14 @@ jobs:
     needs: test   # its means te req to run spcifk job fistnd nxt this job
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-
-      - name: Set up Go
-        uses: actions/setup-go@v4
+      - uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
         with:
-          go-version: '1.15'
-
-      - name: Build
-        run: go build -v ./...
-
-      - name: Test
-        run: go test -v ./...
+          node-version: '18.x'
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm test 
       - name: Upload artifacts   #(to store arifacts produced by build job)
         uses: actions/upload-artifact@v3
         with:
@@ -41,5 +36,11 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Get build artifacts  # to add previous artifacts in current job
+        uses: actions/dowmload-artifact@v3
+        with: 
+          name: dist-files
+      - name: Output contents
+        run: ls    
       - name: Deploy
         run: echo "Deploying..."
